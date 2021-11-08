@@ -1,0 +1,6 @@
+/vcpkg
+
+
+/CMakeUserPresets.json
+/mct_user_settings.json
+/mct_user_toolchain.cmake
