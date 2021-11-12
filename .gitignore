@@ -1,5 +1,8 @@
 /vcpkg
-
+/.vscode
+/build
+/run
+/_user_private
 
 /CMakeUserPresets.json
 /mct_user_settings.json

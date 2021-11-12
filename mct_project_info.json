@@ -8,10 +8,12 @@
             "sdl2-image[libjpeg-turbo,libwebp]",
             "sdl2-net",
             "sdl2-ttf",
+            "sdl2-mixer[libvorbis,nativemidi]",
             "imgui[sdl2-binding,opengl3-binding]",
             "opengl",
             "stb",
-            "pybind11"
+            "pybind11",
+            "tmx"
         ]
     },
     "required_user_toolchain_values": [],
