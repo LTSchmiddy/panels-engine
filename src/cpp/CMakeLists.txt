@@ -6,3 +6,4 @@ target_sources(${TARGET_NAME}
 
 add_subdirectory("./python")
 add_subdirectory("./ui")
+add_subdirectory("./game")

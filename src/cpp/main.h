@@ -20,5 +20,3 @@ struct AppGlobal {
 };
 
 extern AppGlobal g_AppGlobal;
-
-void init_vlc();
