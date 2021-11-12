@@ -3,6 +3,8 @@
 /build
 /run
 /_user_private
+**/__pycache__
+
 
 /CMakeUserPresets.json
 /mct_user_settings.json
