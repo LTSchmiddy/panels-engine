@@ -125,8 +125,8 @@ int main(int argc, char** argv) {
     g_AppGlobal.style_window = new UI::FWindow("Style Editor##style_window", new UI::StyleEditor(), true, false);
     g_AppGlobal.py_console_window = new UI::FWindow("Python Console##python_console_window", new UI::PyConsole(), true, false);
 
-    g_AppGlobal.fragments.emplace_back(g_AppGlobal.style_window);
-    g_AppGlobal.fragments.emplace_back(g_AppGlobal.py_console_window);
+    g_AppGlobal.ui_fragments.emplace_back(g_AppGlobal.style_window);
+    g_AppGlobal.ui_fragments.emplace_back(g_AppGlobal.py_console_window);
 
     // Releasing the GIL from this thread. We need this if we're gonna use threads
     // on the Python side. This also means that whenever we want to access the
@@ -151,8 +151,8 @@ int main(int argc, char** argv) {
         // flags.
 
         // Background Tasks:
-        for (int i = 0; i < g_AppGlobal.fragments.size(); i++) {
-            auto fragment = g_AppGlobal.fragments.at(i);
+        for (int i = 0; i < g_AppGlobal.ui_fragments.size(); i++) {
+            auto fragment = g_AppGlobal.ui_fragments.at(i);
             fragment->onBackground();
         }
 
@@ -162,8 +162,8 @@ int main(int argc, char** argv) {
 
             // Allows fragments to consume events:
             bool consumed = false;
-            for (int i = 0; i < g_AppGlobal.fragments.size(); i++) {
-                auto fragment = g_AppGlobal.fragments.at(i);
+            for (int i = 0; i < g_AppGlobal.ui_fragments.size(); i++) {
+                auto fragment = g_AppGlobal.ui_fragments.at(i);
 
                 if (fragment->onEvent(&event)) {
                     consumed = true;
@@ -189,7 +189,10 @@ int main(int argc, char** argv) {
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
 
-        construct_menu_bar();
+        if (g_AppGlobal.show_top_menu_bar) {
+            construct_menu_bar();
+        }
+        
 
         // 1. Show the big demo window (Most of the sample code is in
         // ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear
@@ -198,8 +201,8 @@ int main(int argc, char** argv) {
             ImGui::ShowDemoWindow(&g_AppGlobal.show_demo_window);
         }        
 
-        for (int i = 0; i < g_AppGlobal.fragments.size(); i++) {
-            auto fragment = g_AppGlobal.fragments.at(i);
+        for (int i = 0; i < g_AppGlobal.ui_fragments.size(); i++) {
+            auto fragment = g_AppGlobal.ui_fragments.at(i);
             if (fragment->should_draw) {
                 fragment->onDraw();
             }
@@ -232,8 +235,8 @@ int main(int argc, char** argv) {
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
 
-    for (int i = 0; i < g_AppGlobal.fragments.size(); i++) {
-        auto fragment = g_AppGlobal.fragments.at(i);
+    for (int i = 0; i < g_AppGlobal.ui_fragments.size(); i++) {
+        auto fragment = g_AppGlobal.ui_fragments.at(i);
         if (fragment->delete_during_cleanup) {
             delete fragment;
         }
